@@ -2,6 +2,12 @@
 
 A custom embedded air quality monitoring system built from scratch in C for an STM32 microcontroller. The system collects particulate matter, CO₂, temperature, humidity, and VOC measurements from multiple sensors and displays the readings on an ST7735 TFT display. I implemented the peripheral drivers at the register level without using the STM32 HAL, including UART, I2C, SPI, and SysTick configuration.
 
+# Demo
+<p align="center">
+    <img src="media/1.jpeg" width="45%">
+    <img src="media/2.gif" width="45%">
+</p>
+
 ## Overview
 
 Designed as a bare-metal embedded system with multiple sensors communicating over different hardware interfaces:
@@ -45,9 +51,3 @@ Sensor communication includes basic integrity checks before updating the shared 
 - **SGP40** - Validates the CRC of the returned raw VOC measurement.
 
 Invalid or incomplete sensor frames are discarded and not written into the shared data structure.
-
-# Demo
-<p align="center">
-    <img src="media/1.jpeg" width="45%">
-    <img src="media/2.gif" width="45%">
-</p>
