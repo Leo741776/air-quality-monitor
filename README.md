@@ -14,9 +14,9 @@ Designed as a bare-metal embedded system with multiple sensors communicating ove
 
 - **PMS5003** - Measures particulate matter concentrations using UART at 9600 baud.
 - **SCD40** - Measures CO₂, temperature, and humidity using I2C.
-- **SGP40** - Measures raw VOC values using I2C with CRC-8 validation.
+- **SGP40** - Measures raw VOC values using I2C.
 - **ST7735** - Displays sensor measurements using SPI.
-- **peripherals** - UART, I2C, SPI, GPIO, and SysTick are configured directly through STM32 registers without relying on the HAL library.
+- **eripherals** - UART, I2C, SPI, GPIO, and SysTick are configured directly through STM32 registers without relying on the HAL library.
 
 Sensor data is collected, validated, stored in a shared `AirQualityData` struct, and periodically copied into a local snapshot before being displayed.
 
@@ -24,14 +24,14 @@ Sensor data is collected, validated, stored in a shared `AirQualityData` struct,
 
 - **main.c** - System initialization, sensor initialization, application loop, sensor polling, and display updates.
 - **aqd.c / aqd.h** - Shared `AirQualityData` struct and safe snapshot functionality for sensor data.
-- **pms5003.c / pms5003.h** - PMS5003 driver, UART frame synchronization, 32-byte frame reception, checksum validation, and particulate matter extraction.
-- **scd40.c / scd40.h** - SCD40 driver, measurement commands, data-ready checking, CRC validation, and CO₂, temperature, and humidity conversion.
-- **sgp40.c / sgp40.h** - SGP40 driver, raw VOC measurement commands, temperature/humidity compensation parameters, and CRC validation.
+- **pms5003.c / pms5003.h** - PMS5003 driver, 32-byte frame reception, checksum validation, and particulate matter extraction.
+- **scd40.c / scd40.h** - SCD40 driver for reading CO₂, temperature, and humidity measurements.
+- **sgp40.c / sgp40.h** - SGP40 driver for reading raw VOC measurements.
 - **i2c1.c / i2c1.h** - Register-level I2C1 configuration and blocking read/write communication.
 - **usart.c / usart.h** - Register-level USART1 configuration and timed byte reception for the PMS5003.
 - **spi.c / spi.h** - Register-level SPI1 configuration for communication with the ST7735 display.
 - **st7735.c / st7735.h** - Display interface and sensor data rendering.
-- **utility.c / utility.h** - SysTick-based millisecond timing, delays, and numerical-to-string conversion utilities.
+- **utility.c / utility.h** - SysTick-based millisecond timing, delays, and integer-to-string conversion utilities.
 
 ## Communication
 
@@ -44,7 +44,7 @@ The system uses multiple communication protocols depending on the peripheral:
 
 ## Data Validation
 
-Sensor communication includes basic integrity checks before updating the shared sensor data:
+Sensor communication includes data integrity checks before updating the shared sensor data:
 
 - **PMS5003** - Synchronizes on the `0x42 0x4D` frame header and verifies the 16-bit frame checksum.
 - **SCD40** - Validates the CRC byte for each 16-bit measurement value.
